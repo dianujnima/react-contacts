@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+//Provider
+import {Provider} from './Context';
+
+//Components
+import Contacts from './components/contacts/Contacts';
+import AddContact from './components/contacts/AddContact';
+import Header from './components/partials/Header';
+import About from './components/about/About';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Provider>
+        <Router>
+          <div className="App">
+            <Header branding="Project Manager"/>
+            <div className="container">
+              <Switch>
+                  <Route exact path="/" component={Contacts} />
+                  <Route exact path="/add_contact" component={AddContact} />
+                  <Route exact path="/about" component={About} />
+              </Switch>
+            </div>
+          </div>
+        </Router>
+      </Provider>
     );
   }
 }
