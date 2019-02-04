@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
 import {Consumer} from './../../Context';
 import TextInputField from './../partials/TextInputField';
-// import uuid from 'uuid';
 import axios from 'axios';
 
-class AddContact extends Component {
+class EditContact extends Component {
     state = {
         name: '',
         email: '',
         phone: '',
         errors: {}
+    }
+
+    async componentDidMount(){
+        const {id} = this.props.match.params;
+        const res = await axios.get('https://jsonplaceholder.typicode.com/users/' + id);
+        const contact = res.data;
+        this.setState({
+            name: contact.name,
+            email: contact.email,
+            phone: contact.phone
+        })
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value});
@@ -47,17 +57,16 @@ class AddContact extends Component {
             return;
         }
         
-        const newContact = {
-            // id: uuid(),
+        const editedContact = {
             name: this.state.name,
             email: this.state.email,
             phone: this.state.phone,
         };
-        
-        const addCon = await axios.post('https://jsonplaceholder.typicode.com/users/', newContact);
+        const { id } = this.props.match.params;
+        const res = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, editedContact);
         dispatch({
-            type: 'ADD_CONTACT',
-            payload: addCon.data
+            type: 'UPDATE_CONTACT',
+            payload: res.data
         });
         this.setState({
             name: '',
@@ -73,7 +82,7 @@ class AddContact extends Component {
         const {name, email, phone, errors} = this.state;
         return(
             <React.Fragment>
-                <h2 className="display-4"><span className="text-success">Add</span> Contact!</h2>
+                <h2 className="display-4"><span className="text-success">Update</span> Contact!</h2>
                 <hr className="my-4" />
                 <Consumer>
                     {value => {
@@ -112,7 +121,7 @@ class AddContact extends Component {
                                             error={errors.phone}
                                             required
                                         />
-                                        <button className="btn btn-block btn-success">Add Contact</button>
+                                        <button className="btn btn-block btn-success">Update Contact</button>
                                     </form>
                                 </div>
                             </div>
@@ -124,4 +133,4 @@ class AddContact extends Component {
     }
 }
 
-export default AddContact
+export default EditContact

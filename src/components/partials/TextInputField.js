@@ -6,7 +6,7 @@ import classnames from 'classnames';
 const TextInputField = ({label, name, value, placeholder, onchange, type, error}) => {
     return (
         <div className="form-group">
-            <label htmlFor={name}>Name</label>
+            <label htmlFor={name}>{label}</label>
             <input
                 type={type}
                 id={name}

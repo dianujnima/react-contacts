@@ -29,6 +29,12 @@ class Header extends Component {
                             About
                         </Link>
                     </li>
+
+                    <li className="nav-item">
+                        <Link to="/getReq" className="nav-link">
+                            Get Request
+                        </Link>
+                    </li>
                 </ul>
             </div>
           </nav>
